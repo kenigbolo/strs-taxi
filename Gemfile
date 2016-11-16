@@ -6,6 +6,7 @@ gem 'puma', '~> 3.0'
 gem 'active_model_serializers'
 gem 'rack-cors'
 gem 'faker', '~> 1.6'
+gem 'pusher', '~> 1.3'
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails', '~> 3.5'
