@@ -18,7 +18,7 @@ module Api
       end
     end
 
-    def sign_in
+    def login
       user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
       if user != false
         render :plain => user.token
