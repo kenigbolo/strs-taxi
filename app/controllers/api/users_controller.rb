@@ -1,16 +1,15 @@
 module Api
   class UsersController < ApiController
-    respond_to :json
 
     def create
       user = User.new
-      user.first_name = params[user][first_name]
-      user.last_name = params[user][last_name]
-      user.email = params[user][email]
-      user.dob = params[user][dob]
-      user.password = params[password]
-      user.password_confrimation = params[user][password_confrimation]
-      user.user_type = params[user][user_type]
+      user.first_name = params[:user][:first_name]
+      user.last_name = params[:user][:last_name]
+      user.email = params[:user][:email]
+      user.dob = params[:user][:dob]
+      user.password = params[:user][:password]
+      user.password_confirmation = params[:user][:password_confrimation]
+      user.user_type = params[:user][:user_type]
 
       if user.user_type == "Driver"
         save_driver(user)
@@ -20,7 +19,12 @@ module Api
     end
 
     def sign_in
-
+      user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
+      if user != false
+        render :plain => user.token
+      else
+        render :plain => "Inavalid email and/or passowrd"
+      end
     end
 
     private
@@ -31,23 +35,24 @@ module Api
 
     def save_user(user)
       if user.save!
-        return user
+        render :plain => "Your registration was successfully, sign in to use our service"
       else
-        respond_with
+        render :plain => "We could not create an account for you.Please try again"
       end
     end
 
     def save_driver(user)
       user = save_user(user)
       if User.exists?(user.id)
-        driver = Driver.new(user_id: user.id, car_type: params[user][car_type], plate_number: params[user][plate_number])
+        driver = Driver.new(user_id: user.id, car_type: params[:user][:car_type], plate_number: params[:user][:plate_number])
         if driver.save!
-          respond_with "Your registration was successfully, sign in to use our service"
+          render :plain => "Your registration was successfully, sign in to use our service"
         else
-          respond_with "We could not create an account for you.Please try again"
+          User.delete(user)
+          render :plain => "Something went wrong while trying to save your car details"
         end
       else
-        respond_with "We could not create an account for you.Please try again"
+        render :text => "We could not create an account for you.Please try again"
       end
     end
 
