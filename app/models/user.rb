@@ -2,6 +2,6 @@ class User < ApplicationRecord
 	has_secure_password
 	has_secure_token
 	validates :email, presence: true, uniqueness: true
+	validates :first_name, :last_name, :dob, :password, :password_confirmation, presence: true
+	validates :password, :passowrd_confirmation, :length => {:within => 6..40}
 end
-
-# {"user":{"first_name":"Meya"},{"last_name": "Kenigbolo"},{"email":"email@email.com"},{"password": "123456"},{"password_confirmation": "123456"},{"dob":"1991-05-27"},{},{},{},{},{}}
