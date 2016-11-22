@@ -8,7 +8,7 @@ module Api
       user.email = params[:user][:email]
       user.dob = params[:user][:dob]
       user.password = params[:user][:password]
-      user.password_confirmation = params[:user][:password_confrimation]
+      user.password_confirmation = params[:user][:password_confirmation]
       user.user_type = params[:user][:user_type]
 
       if user.user_type == "Driver"
@@ -42,7 +42,7 @@ module Api
     end
 
     def save_driver(user)
-      user = save_user(user)
+      user = user.save!
       if User.exists?(user.id)
         driver = Driver.new(user_id: user.id, car_type: params[:user][:car_type], plate_number: params[:user][:plate_number])
         if driver.save!
