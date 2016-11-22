@@ -30,7 +30,7 @@ module Api
     private
 
     def user_reg_params
-      params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confirmation, :user_type, :car_type, :plate_number)
+      params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confirmation, :user_type, :car_model, :car_color, :plate_number)
     end
 
     def save_user(user)
@@ -44,7 +44,7 @@ module Api
     def save_driver(user)
       user = user.save!
       if User.exists?(user.id)
-        driver = Driver.new(user_id: user.id, car_type: params[:user][:car_type], plate_number: params[:user][:plate_number])
+        driver = Driver.new(user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], car[:user][:color])
         if driver.save!
           render :plain => "Your registration was successfully, sign in to use our service"
         else

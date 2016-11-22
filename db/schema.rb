@@ -13,7 +13,8 @@
 ActiveRecord::Schema.define(version: 20161121194825) do
 
   create_table "drivers", force: :cascade do |t|
-    t.string   "car_type"
+    t.string   "car_model"
+    t.string   "car_color"
     t.string   "plate_number"
     t.integer  "user_id"
     t.datetime "created_at",   null: false
