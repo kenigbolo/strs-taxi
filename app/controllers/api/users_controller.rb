@@ -30,7 +30,7 @@ module Api
     private
 
     def user_reg_params
-      params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confrimation, :user_type, :car_type, :plate_number)
+      params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confirmation, :user_type, :car_type, :plate_number)
     end
 
     def save_user(user)
