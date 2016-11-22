@@ -7,15 +7,15 @@ RSpec.describe User, type: :model do
   date_of_birth = Faker::Date.between(100.years.ago, 18.years.ago)
 
   user = User.new
-	user.first_name = first_name
+  user.first_name = first_name
   user.last_name = last_name
-	user.email = email
+  user.email = email
   user.dob = date_of_birth
-	user.password = '12345678'
-	user.password_confirmation = '12345678'
-	user.save!(validations: false)
+  user.password = '12345678'
+  user.password_confirmation = '12345678'
+  user.save!(validations: false)
 
-	new_user = User.new
+  new_user = User.new
 
   context 'When a new User is initialized' do
     it 'is a new user initialized' do

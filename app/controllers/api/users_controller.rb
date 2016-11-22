@@ -48,7 +48,7 @@ module Api
         if driver.save!
           render :plain => "Your registration was successfully, sign in to use our service"
         else
-          User.delete(user)
+          user.destroy
           render :plain => "Something went wrong while trying to save your car details"
         end
       else
