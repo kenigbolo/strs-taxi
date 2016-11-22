@@ -3,5 +3,5 @@ Rails.application.routes.draw do
     resources :users
   end
 
-  post 'api/users/login', to: 'users#login'
+  post 'api/users/login', to: 'api/users#login'
 end
