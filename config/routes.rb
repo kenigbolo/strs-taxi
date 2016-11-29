@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   root :to => 'locations#index'
   resources :locations
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  namespace :api do
+    resources :users    
+  end
+
+  post 'api/users/login', to: 'api/users#login'
 end

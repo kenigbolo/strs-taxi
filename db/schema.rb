@@ -12,6 +12,16 @@
 
 ActiveRecord::Schema.define(version: 20161129102142) do
 
+  create_table "drivers", force: :cascade do |t|
+    t.string   "car_model"
+    t.string   "car_color"
+    t.string   "plate_number"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["user_id"], name: "index_drivers_on_user_id"
+  end
+
   create_table "locations", force: :cascade do |t|
     t.string   "pickup_address"
     t.string   "dropoff_address"
@@ -30,6 +40,20 @@ ActiveRecord::Schema.define(version: 20161129102142) do
     t.string   "reg_no",     limit: 50, null: false
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "email"
+    t.string   "password"
+    t.string   "password_confirmation"
+    t.string   "password_digest"
+    t.string   "user_type"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.string   "token"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.date     "dob"
   end
 
 end
