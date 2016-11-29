@@ -1,4 +1,5 @@
 class LocationsController < ApplicationController
+  require 'google_distance_matrix.rb'
   before_action :set_location, only: [:show, :update, :destroy]
 
   # GET /locations
