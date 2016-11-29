@@ -10,10 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161116123351) do
+ActiveRecord::Schema.define(version: 20161121194825) do
+
+  create_table "drivers", force: :cascade do |t|
+    t.string   "car_model"
+    t.string   "car_color"
+    t.string   "plate_number"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["user_id"], name: "index_drivers_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
-    t.string   "name"
     t.string   "email"
     t.string   "password"
     t.string   "password_confirmation"
@@ -21,6 +30,10 @@ ActiveRecord::Schema.define(version: 20161116123351) do
     t.string   "user_type"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.string   "token"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.date     "dob"
   end
 
 end
