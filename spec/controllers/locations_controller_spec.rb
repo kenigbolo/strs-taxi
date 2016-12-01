@@ -24,7 +24,17 @@ RSpec.describe Api::LocationsController, type: :controller do
   # Location. As you add validations to Location, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      pickup_address: "Narva maantee 25, 51009 Tartu, Estonia",
+      dropoff_address: "Kaubamaja, Tallinn, Estonia",
+      pickup_lat: 58.38285889999999,
+      pickup_long: 26.7282834,
+      dropoff_lat: 59.43422630000001,
+      dropoff_long: 24.7560175,
+      distance_between: "184 km",
+      cost: 368,
+      time: "2 hours 12 mins"
+    }
   }
 
   let(:invalid_attributes) {
