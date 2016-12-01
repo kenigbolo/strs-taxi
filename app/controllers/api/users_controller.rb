@@ -44,7 +44,7 @@ module Api
     def save_driver(user)
       user = user.save!
       if User.exists?(user.id)
-        driver = Driver.new(user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], car[:user][:color])
+        driver = Driver.new(user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], color: params[:user][:color])
         if driver.save!
           render :plain => "Your registration was successfully, sign in to use our service"
         else
