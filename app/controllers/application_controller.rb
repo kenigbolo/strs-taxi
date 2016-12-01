@@ -3,7 +3,6 @@ class ApplicationController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
 
   protected
-
   # Authenticate the user with token based authentication
   def authenticate
     authenticate_token || render_unauthorized
