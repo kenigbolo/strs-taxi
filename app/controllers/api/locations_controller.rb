@@ -48,7 +48,7 @@ module Api
           render json: @location.errors, status: :unprocessable_entity
         end
       else
-         render json: { error: "Location Not Found, Please try again!" }, status: 404
+         render json: { error: 'Location Not Found, Please try again!' }, status: 404
       end
     end
 
