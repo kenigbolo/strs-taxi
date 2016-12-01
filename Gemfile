@@ -25,7 +25,7 @@ gem 'pusher', '~> 1.3'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem 'geocoder'
+# gem 'geocoder'
 
 gem 'active_model_serializers'
 
