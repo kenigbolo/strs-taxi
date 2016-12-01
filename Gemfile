@@ -24,15 +24,15 @@ gem 'pusher', '~> 1.3'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-
-# gem 'geocoder'
-
 gem 'active_model_serializers'
-
 gem 'httparty'
-
 gem 'bcrypt', '~> 3.1'
 gem 'rack-attack'
+
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -60,11 +60,6 @@ group :test do
   gem 'faker', '~> 1.6'
   gem 'launchy'
   gem 'poltergeist'
-end
-
-group :production do
-  gem 'pg'
-  gem 'rails_12factor'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
