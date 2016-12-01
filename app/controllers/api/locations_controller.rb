@@ -48,7 +48,7 @@ module Api
           render json: @location.errors, status: :unprocessable_entity
         end
       else
-         render json: {error: "Location Not Found, Please try again!"}.to_json, status: 404
+         render json: { error: "Location Not Found, Please try again!" }, status: 404
       end
     end
 
@@ -72,7 +72,7 @@ module Api
         begin
           @location = Location.find(params[:id])
         rescue ActiveRecord::RecordNotFound
-          render json: {error: "Location Not Found"}.to_json, status: 404
+          render json: { error: "Location Not Found" }, status: 404
         end
       end
 
