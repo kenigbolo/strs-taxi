@@ -19,12 +19,22 @@ module Api
     end
 
     def login
-      user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
-      if user != false
-        render :plain => user.token
+      @user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
+      if @user
+        if @user.user_type = "Driver"
+          session[:current_user_id] = @user.id
+          render :json @user, token: @user.token, driver_details: @user.driver
+        else
+          session[:current_user_id] = @user.id
+          render :json @user, token: @user.token
+        end
       else
         render :plain => "Inavalid email and/or passowrd"
       end
+    end
+
+    def logout
+      session[:current_user_id] = nil
     end
 
     private
