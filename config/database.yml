@@ -13,9 +13,9 @@ test: &test
 
 production:
   adapter: postgresql
-  database: strsapp_production
+  database: strsapp
   pool: 5
   timeout: 5000
 
-cucumber:
-  <<: *test
+# cucumber:
+#   <<: *test
