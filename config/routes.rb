@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   end
 
   post 'api/users/login', to: 'api/users#login'
+  get 'api/users/logout', to: 'api/users#logout'
 end

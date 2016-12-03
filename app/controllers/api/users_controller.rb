@@ -11,7 +11,7 @@ module Api
       user.password_confirmation = params[:user][:password_confirmation]
       user.user_type = params[:user][:user_type]
 
-      if user.user_type == "Driver"
+      if user.user_type.capitalize == "Driver"
         save_driver(user)
       else
         save_user(user)
@@ -21,15 +21,15 @@ module Api
     def login
       @user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
       if @user
-        if @user.user_type = "Driver"
+        if @user.user_type == "Driver"
           session[:current_user_id] = @user.id
-          render :json @user, token: @user.token, driver_details: @user.driver
+          render json: {user: @user, driver_details: @user.driver}
         else
           session[:current_user_id] = @user.id
-          render :json @user, token: @user.token
+          render json: @user
         end
       else
-        render :plain => "Inavalid email and/or passowrd"
+        render json: { error: 'Inavalid email and/or passowrd' }, status: 404
       end
     end
 
