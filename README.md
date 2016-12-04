@@ -3,6 +3,8 @@
 ##Getting Started
 
 + Clone the repo:
+`clone git@bitbucket.org:strs_taxi/strs-taxi.git` for SSH
+`git clone https://expensivestephen@bitbucket.org/strs_taxi/strs-taxi.git` for HTTPS
 
 ##Dependencies
 
