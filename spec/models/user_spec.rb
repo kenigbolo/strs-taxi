@@ -1,6 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  context 'valid Factory' do
+    it 'has a valid factory' do
+      expect(FactoryGirl.build(:user)).to be_valid
+    end
+  end
+  
   email = Faker::Internet.email
   first_name = Faker::Name.name
   last_name = Faker::Name.name
