@@ -125,7 +125,7 @@ module Api
 
       # Only allow a trusted parameter "white list" through.
       def location_params
-        params.permit(:pickup_address, :dropoff_address, :pickup_lat, :pickup_long, :dropoff_lat, :dropoff_long, :distance_between, :cost, :time)
+        params.require(:location).permit(:pickup_address, :dropoff_address)
       end
   end
 end

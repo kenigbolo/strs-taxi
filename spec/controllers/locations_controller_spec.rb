@@ -24,21 +24,14 @@ RSpec.describe Api::LocationsController, type: :controller do
   # Location. As you add validations to Location, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    {
-      pickup_address: "Narva maantee 25, 51009 Tartu, Estonia",
-      dropoff_address: "Kaubamaja, Tallinn, Estonia",
-      pickup_lat: 58.38285889999999,
-      pickup_long: 26.7282834,
-      dropoff_lat: 59.43422630000001,
-      dropoff_long: 24.7560175,
-      distance_between: "184 km",
-      cost: 368,
-      time: "2 hours 12 mins"
-    }
+    FactoryGirl.build(:location).attributes.symbolize_keys
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    FactoryGirl.attributes_for(:location,
+      pickup_address: nil,
+      dropoff_address: nil
+    )
   }
 
   # This should return the minimal set of values that should be in the session
@@ -62,21 +55,6 @@ RSpec.describe Api::LocationsController, type: :controller do
     end
   end
 
-  describe "GET #new" do
-    it "assigns a new location as @location" do
-      get :new, params: {}, session: valid_session
-      expect(assigns(:location)).to be_a_new(Location)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested location as @location" do
-      location = Location.create! valid_attributes
-      get :edit, params: {id: location.to_param}, session: valid_session
-      expect(assigns(:location)).to eq(location)
-    end
-  end
-
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Location" do
@@ -93,77 +71,81 @@ RSpec.describe Api::LocationsController, type: :controller do
 
       it "redirects to the created location" do
         post :create, params: {location: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Location.last)
+        expect(response).to have_http_status(201)
       end
     end
 
     context "with invalid params" do
-      it "assigns a newly created but unsaved location as @location" do
-        post :create, params: {location: invalid_attributes}, session: valid_session
-        expect(assigns(:location)).to be_a_new(Location)
+      it "does not save the new location" do
+        expect{
+          post :create, params: {location: invalid_attributes}, session: valid_session
+        }.to_not change(Location, :count)
       end
 
-      it "re-renders the 'new' template" do
+      it "returns location not found with status 404" do
         post :create, params: {location: invalid_attributes}, session: valid_session
-        expect(response).to render_template("new")
+        expect(response).to have_http_status(404)
       end
     end
   end
 
   describe "PUT #update" do
+    before :each do
+      @location = Location.create! valid_attributes
+    end
+
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        FactoryGirl.attributes_for(:location,
+          pickup_address: "Narva maantee 25, 51009 Tartu, Estonia",
+        )
       }
 
       it "updates the requested location" do
-        location = Location.create! valid_attributes
-        put :update, params: {id: location.to_param, location: new_attributes}, session: valid_session
-        location.reload
-        skip("Add assertions for updated state")
+        put :update, params: {id: @location.to_param, location: new_attributes}, session: valid_session
+        @location.reload
+        new_attributes.each_pair do |key, value|
+          expect(@location[key]).to eq(value)
+        end
       end
 
       it "assigns the requested location as @location" do
-        location = Location.create! valid_attributes
-        put :update, params: {id: location.to_param, location: valid_attributes}, session: valid_session
-        expect(assigns(:location)).to eq(location)
+        put :update, params: {id: @location.to_param, location: valid_attributes}, session: valid_session
+        expect(assigns(:location)).to eq(@location)
       end
 
       it "redirects to the location" do
-        location = Location.create! valid_attributes
-        put :update, params: {id: location.to_param, location: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(location)
+        put :update, params: {id: @location.to_param, location: valid_attributes}, session: valid_session
+        expect(response).to have_http_status(200)
       end
     end
 
     context "with invalid params" do
-      it "assigns the location as @location" do
-        location = Location.create! valid_attributes
-        put :update, params: {id: location.to_param, location: invalid_attributes}, session: valid_session
-        expect(assigns(:location)).to eq(location)
+      it "locates the requested @location" do
+        put :update, params: {id: @location.to_param, location: invalid_attributes}, session: valid_session
+        expect(assigns(:location)).to eq(@location)
       end
 
-      it "re-renders the 'edit' template" do
-        location = Location.create! valid_attributes
-        put :update, params: {id: location.to_param, location: invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
+      it "does not change @location's attributes" do
+        put :update, params: {id: @location.to_param, location: invalid_attributes}, session: valid_session
+        @location.reload
+        expect(@location.pickup_address).not_to eq("TÜ üliõpilaselamu, 51009 Tartu, Estonia")
+        expect(@location.dropoff_address).not_to eq("Juhan Liivi 2, 50409 Tartu, Estonia")
       end
     end
   end
 
   describe "DELETE #destroy" do
+    before :each do
+      @location = Location.create! valid_attributes
+    end
+
     it "destroys the requested location" do
-      location = Location.create! valid_attributes
       expect {
-        delete :destroy, params: {id: location.to_param}, session: valid_session
+        delete :destroy, params: {id: @location.to_param}, session: valid_session
       }.to change(Location, :count).by(-1)
     end
 
-    it "redirects to the locations list" do
-      location = Location.create! valid_attributes
-      delete :destroy, params: {id: location.to_param}, session: valid_session
-      expect(response).to redirect_to(locations_url)
-    end
   end
 
 end
