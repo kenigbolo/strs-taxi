@@ -1,6 +1,12 @@
 module Api
   class UsersController < ApiController
 
+    def index
+      if session[:current_user_id] == nil
+        render text: "Welcome to STRS-TAXI, please login to continue"
+      end
+    end
+
     def create
       user = User.new
       user.first_name = params[:user][:first_name]
@@ -18,19 +24,14 @@ module Api
       end
     end
 
+    def show
+      @user = authenticate_user(params[:user][:token])
+      render_user(@user)
+    end
+
     def login
       @user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
-      if @user
-        if @user.user_type == "Driver"
-          session[:current_user_id] = @user.id
-          render json: {user: @user, driver_details: @user.driver}
-        else
-          session[:current_user_id] = @user.id
-          render json: @user
-        end
-      else
-        render json: { error: 'Inavalid email and/or passowrd' }, status: 404
-      end
+      render_user(@user)
     end
 
     def logout
@@ -38,7 +39,6 @@ module Api
     end
 
     private
-
     def user_reg_params
       params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confirmation, :user_type, :car_model, :car_color, :plate_number)
     end
@@ -56,13 +56,28 @@ module Api
       if User.exists?(user.id)
         driver = Driver.new(user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], color: params[:user][:color])
         if driver.save!
-          render :plain => "Your registration was successfully, sign in to use our service"
+          render plain: "Your registration was successfully, sign in to use our service"
         else
           user.destroy
-          render :plain => "Something went wrong while trying to save your car details"
+          render plain: "Something went wrong while trying to save your car details"
         end
       else
-        render :text => "We could not create an account for you.Please try again"
+        render text: "We could not create an account for you.Please try again"
+      end
+    end
+
+    def render_user(user)
+      @user = user
+      if @user
+        if @user.user_type == "Driver"
+          session[:current_user_id] = @user.id
+          render json: {user: @user, driver_details: @user.driver}
+        else
+          session[:current_user_id] = @user.id
+          render json: @user
+        end
+      else
+        render json: { error: 'Inavalid email and/or passowrd' }, status: 404
       end
     end
 
