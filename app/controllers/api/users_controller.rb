@@ -25,7 +25,7 @@ module Api
     end
 
     def show
-      @user = authenticate_user(params[:user][:token])
+      @user = authenticate_user(params[:id])
       render_user(@user)
     end
 
@@ -43,8 +43,12 @@ module Api
       params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confirmation, :user_type, :car_model, :car_color, :plate_number)
     end
 
+    def authenticate_user(token)
+      User.includes(:driver).find_by(token: token)
+    end
+
     def save_user(user)
-      if user.save!
+      if user.save
         render :plain => "Your registration was successfully, sign in to use our service"
       else
         render :plain => "We could not create an account for you.Please try again"
