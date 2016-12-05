@@ -87,15 +87,15 @@ RSpec.describe Api::UsersController, type: :controller do
 
   describe "POST #create" do
     it "returns http success" do
-      user = FactoryGirl.build(:user)
-      post :create, user: registration_params(user)
+      user_attributes = FactoryGirl.attributes_for(:user)
+      post :create, { user: user_attributes }
       expect(response).to have_http_status(:success)
       expect(response.status).to eq(200)
     end
 
     it "returns a valid user details for valid login" do
-      user = FactoryGirl.build(:user)
-      post :create, user: registration_params(user)
+      user_attributes = FactoryGirl.attributes_for(:user)
+      post :create, { user: user_attributes }
       expect(response.body).to eq "Your registration was successfully, sign in to use our service"
     end
 
