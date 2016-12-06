@@ -3,12 +3,14 @@ class BookingsController < ApiController
   def create
     booking = Booking.create(location_id: params[:location][:id], status: Booking::AVAILABLE)
     drivers = Driver.find_by(status: Driver::Active)
+    driver_list = []
     drivers.each do |driver|
-      Pusher.trigger('driver_#{driver.id}', 'ride', {
-        start_location: booking.location.pickup_address,
-        destination: booking.location.dropoff_address
-      })
+      driver_list.push("driver_#{driver.id}")
     end
+    Pusher.trigger(driver_list, 'ride', {
+      start_location: booking.location.pickup_address,
+      destination: booking.location.dropoff_address
+    })
   end
 
   def accept
