@@ -6,6 +6,7 @@ FactoryGirl.define do
     password 'PASSWORD'
     password_confirmation 'PASSWORD'
     dob {Faker::Date.between(50.years.ago, 18.years.ago)}
+    token {SecureRandom.hex}
     user_type "Passenger"
   end
 end

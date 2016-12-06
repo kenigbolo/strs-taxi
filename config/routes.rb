@@ -6,7 +6,8 @@ Rails.application.routes.draw do
     resources :users
     resources :locations
   end
-
-  post 'api/users/login', to: 'api/users#login'
+  
   get 'api/users/logout', to: 'api/users#logout'
+  post 'api/users/login', to: 'api/users#login'
+  post 'api/users/status', to: 'api/users#status'
 end
