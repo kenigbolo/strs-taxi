@@ -3,7 +3,7 @@ module Api
 
     def index
       if session[:current_user_id] == nil
-        render text: "Welcome to STRS-TAXI, please login to continue"
+        render json: {message: "Welcome to STRS-TAXI, please login to continue"}, status: 200
       end
     end
 
@@ -29,6 +29,20 @@ module Api
       render_user(@user)
     end
 
+    def status
+      user = authenticate_user(params[:user][:token])
+      if user.user_type == "Driver"
+        user.driver.status = params[:driver][:status]
+        if user.driver.save
+          render json: { status: 'Your status has been successfully updated' }, status: 200
+        else
+          render json: { error: 'Something went wrong while we tried to update your status, please try again' }, status: 404
+        end
+      else
+        render json: { error: 'You are not authorized to perform this action' }, status: 404
+      end
+    end
+
     def login
       @user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
       render_user(@user)
@@ -49,9 +63,9 @@ module Api
 
     def save_user(user)
       if user.save
-        render :plain => "Your registration was successfully, sign in to use our service"
+        render json: { status: 'Your registration was successfully, sign in to use our service' }, status: 200
       else
-        render :plain => "We could not create an account for you.Please try again"
+        render json: { error: 'We could not create an account for you.Please try again' }, status: 404
       end
     end
 
@@ -60,13 +74,13 @@ module Api
       if User.exists?(user.id)
         driver = Driver.new(user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], color: params[:user][:color])
         if driver.save!
-          render plain: "Your registration was successfully, sign in to use our service"
+          render json: { status: 'Your registration was successfully, sign in to use our service' }, status: 200
         else
           user.destroy
-          render plain: "Something went wrong while trying to save your car details"
+          render json: { error: 'Something went wrong while trying to save your car details' }, status: 404
         end
       else
-        render text: "We could not create an account for you.Please try again"
+        render json: { error: 'We could not create an account for you.Please try again' }, status: 404
       end
     end
 
@@ -84,6 +98,5 @@ module Api
         render json: { error: 'Inavalid email and/or passowrd' }, status: 404
       end
     end
-
   end
 end

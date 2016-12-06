@@ -26,7 +26,8 @@ RSpec.describe Api::UsersController, type: :controller do
     it "renders a message for a user who is not logged in" do
       session[:current_user_id] = nil
       get :index
-      expect(response.body).to eq "Welcome to STRS-TAXI, please login to continue"
+      welcome_message = {message: "Welcome to STRS-TAXI, please login to continue"}
+      expect(response.body).to eq welcome_message.to_json
       expect(response).to have_http_status(:success)
       expect(response.status).to eq(200)
     end
@@ -96,12 +97,46 @@ RSpec.describe Api::UsersController, type: :controller do
     it "returns a valid user details for valid login" do
       user_attributes = FactoryGirl.attributes_for(:user)
       post :create, { user: user_attributes }
-      expect(response.body).to eq "Your registration was successfully, sign in to use our service"
+      response_message = {status: "Your registration was successfully, sign in to use our service"}
+      expect(response.body).to eq response_message.to_json
     end
 
     it "returns an error message for incomplete parameters" do
       post :create, user: { email: "anyemail@email.com", password: "user_password", user_type: "Blaaaaah"}
-      expect(response.body).to eq "We could not create an account for you.Please try again"
+      error_message = {error: "We could not create an account for you.Please try again"}
+      expect(response.body).to eq error_message.to_json
+    end
+  end
+
+  describe "POST #status" do
+    it "returns http success" do
+      user = FactoryGirl.create(:user, user_type: "Driver")
+      driver = FactoryGirl.create(:driver, user_id: user.id)
+      post :status, {user: {"token": user.token}, driver: {"status": "Available"}}
+      expect(response).to have_http_status(:success)
+      expect(response.status).to eq(200)
+    end
+
+    it "updates the drivers status to the given status update" do
+      user = FactoryGirl.create(:user, user_type: "Driver")
+      driver = FactoryGirl.create(:driver, user_id: user.id)
+      post :status, {user: {"token": user.token}, driver: {"status": "Available"}}
+      expect(user.driver.status).to eq "Available"
+    end
+
+    it "Gives a successfully response for valid driver" do
+      user = FactoryGirl.create(:user, user_type: "Driver")
+      driver = FactoryGirl.create(:driver, user_id: user.id)
+      post :status, {user: {"token": user.token}, driver: {"status": "Available"}}
+      response_message = {status: "Your status has been successfully updated"}
+      expect(response.body).to eq response_message.to_json
+    end
+
+    it "Throws an error message for someone who isn't a driver" do
+      user = FactoryGirl.create(:user)
+      post :status, {user: {"token": user.token}, driver: {"status": "Available"}}
+      response_message = {error: "You are not authorized to perform this action"}
+      expect(response.body).to eq response_message.to_json
     end
   end
 
