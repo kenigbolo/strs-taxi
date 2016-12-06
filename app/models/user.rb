@@ -1,6 +1,7 @@
 class User < ApplicationRecord
 	has_secure_password
 	has_secure_token
+
 	has_one :driver
 	validates :email, presence: true, uniqueness: true
 	validates :first_name, :last_name, :dob, :password, :password_confirmation, presence: true

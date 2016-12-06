@@ -32,7 +32,7 @@ module Api
     def status
       user = authenticate_user(params[:user][:token])
       if user.user_type == "Driver"
-        user.driver.status = params[:driver][:status]
+        user.driver.status = set_status(params[:driver][:status])
         if user.driver.save
           render json: { status: 'Your status has been successfully updated' }, status: 200
         else
@@ -57,6 +57,16 @@ module Api
       params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confirmation, :user_type, :car_model, :car_color, :plate_number)
     end
 
+    def set_status(status)
+      if status.capitalize == Driver::ACTIVE
+        Driver::ACTIVE
+      elsif status.capitalize == Driver::BUSY
+        Driver::BUSY
+      else
+        Driver::INACTIVE
+      end
+    end
+
     def authenticate_user(token)
       User.includes(:driver).find_by(token: token)
     end
@@ -72,7 +82,7 @@ module Api
     def save_driver(user)
       user = user.save!
       if User.exists?(user.id)
-        driver = Driver.new(user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], color: params[:user][:color])
+        driver = Driver.new(status: User::INACTIVE, user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], color: params[:user][:color])
         if driver.save!
           render json: { status: 'Your registration was successfully, sign in to use our service' }, status: 200
         else

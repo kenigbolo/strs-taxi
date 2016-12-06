@@ -3,6 +3,7 @@ FactoryGirl.define do
     car_model {Faker::StarWars.character}
     car_color {Faker::StarWars.droid}
     plate_number {Faker::Number.hexadecimal(6)}
+    status "Active"
     user
   end
 end
