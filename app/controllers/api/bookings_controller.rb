@@ -45,6 +45,7 @@ module Api
       end
       driver.status = Driver::TRANSIT
       driver.save
+      render json: {status: "Status updated to #{driver.status}"}
     end
 
     def end_ride
@@ -56,6 +57,7 @@ module Api
       end
       driver.status = Driver::ACTIVE
       driver.save
+      render json: {status: "Status updated to #{driver.status}"}
     end
   end
 end
