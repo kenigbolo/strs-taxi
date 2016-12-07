@@ -24,4 +24,11 @@ module Helpers
     driver = FactoryGirl.create(:driver, user_id: user.id)
     post :accept, {user: {token: user.token}, booking:{id: booking.id}}
   end
+
+  def accept_with_inavlid_params
+    booking = FactoryGirl.create(:booking)
+    user = FactoryGirl.create(:user)
+    driver = FactoryGirl.create(:driver, user_id: user.id)
+    post :accept, {user: {token: user.token}, booking:{id: "invalid"}}
+  end
 end

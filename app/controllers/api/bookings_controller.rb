@@ -17,7 +17,12 @@ module Api
 
     def accept
       booking = Booking.find_by(id: params[:booking][:id])
-      driver = User.find_by(token: params[:user][:token]).driver
+      begin
+        user = User.find_by(token: params[:user][:token])
+        driver = Driver.find_by(user_id: user.id)
+      rescue ActiveRecord::RecordNotFound
+        render json: {error: "Unauthorized"}, status: 404
+      end
       if booking && driver
         if booking.status != Booking::CLOSED
           helpers.update_status(booking, driver)
@@ -26,6 +31,8 @@ module Api
         else
           render json: {message: "Another driver is on the way"}
         end
+      else
+        render json: {error: "Unauthorized"}, status: 404
       end
     end
 

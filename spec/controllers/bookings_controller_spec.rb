@@ -20,7 +20,7 @@ RSpec.describe Api::BookingsController, type: :controller do
     end
 
     it "returns a Returns a valid response for successful taxi request" do
-      5.times {FactoryGirl.create(:driver)}
+      10.times {FactoryGirl.create(:driver)}
       create_booking
       message = { message: 'Searching for available taxis......' }
       expect(response.body).to eq(message.to_json)
@@ -35,11 +35,15 @@ RSpec.describe Api::BookingsController, type: :controller do
     end
 
     it "returns an appropraite response for valid params" do
-
+      accept_response
+      message = {message: "Proceed to pickup location"}
+      expect(response.body).to eq(message.to_json)
     end
 
     it "returns error message for invalid params" do
-      
+      accept_with_inavlid_params
+      error_message = {error: "Unauthorized"}
+      expect(response.body).to eq(error_message.to_json)
     end
   end
 
