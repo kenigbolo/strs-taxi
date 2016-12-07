@@ -51,8 +51,15 @@ RSpec.describe Api::BookingsController, type: :controller do
     it "returns http success" do
       start_ride
       expect(response).to have_http_status(:success)
-      expect(response.status).to eq(200)
+      expect(response.status).to eq(204)
     end
+
+    # it "updates the drivers status" do
+    #   user = FactoryGirl.create(:user)
+    #   driver = FactoryGirl.create(:driver, user_id: user.id)
+    #   post :start_ride, {user: {token: user.token}}
+    #   expect(post :start_ride, {user: {token: user.token}}).to change(driver.status).from(Driver::ACTIVE).to(Driver::TRANSIT)
+    # end
   end
 
 end
