@@ -11,4 +11,10 @@ module Helpers
     user = FactoryGirl.create(:user)
     post :login, user: { email: user.email, password: user.password}
   end
+
+  def create_booking
+    user = FactoryGirl.create(:user)
+    location = FactoryGirl.create(:location)
+    post :create, {user: { token: user.token}, location: {id: location.id}}
+  end
 end

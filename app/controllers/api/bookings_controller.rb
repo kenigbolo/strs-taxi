@@ -2,18 +2,17 @@ module Api
   class BookingsController < ApiController
     def create
       user = User.find_by(token: params[:user][:token])
-      booking = Booking.create(location_id: params[:location][:id], status: Booking::AVAILABLE, user_id: user.id)
+      location = Location.find_by(id: params[:location][:id])
+      booking = helpers.create_booking(user, location)
       drivers = Driver.where("status = ? ", Driver::ACTIVE)
       driver_list = []
-      drivers.each do |driver|
-        driver_list.push("driver_#{driver.id}")
+      if booking && drivers.present?
+        helpers.create_drivers_list(drivers, driver_list)
+        helpers.push_booking_to_drivers(driver_list, booking)
+        render json: {message: "Searching for available taxis......"}
+      else
+        render json: {message: "We do not have any available taxis. Try again in a few seconds"}
       end
-      Pusher.trigger(driver_list[0..9], 'ride', {
-        start_location: booking.location.pickup_address,
-        destination: booking.location.dropoff_address,
-        booking_id: booking.id
-      })
-      render json: {message: "Searching for available taxis......"}
     end
 
     def accept
@@ -21,16 +20,8 @@ module Api
       driver = User.find_by(token: params[:user][:token]).driver
       if booking && driver
         if booking.status != Booking::CLOSED
-          booking.status = Booking::CLOSED
-          booking.driver_id = driver.id
-          driver.status = Driver::BUSY
-          booking.save && driver.save
-          Pusher.trigger("user_#{booking.user_id}", 'pickup', {
-            message: "Your taxi is enroute",
-            car_model: driver.car_model,
-            car_color: driver.car_color,
-            plate_number: driver.plate_number
-          })
+          helpers.update_status(booking, driver)
+          helpers.push_status_to_user(booking, driver)
           render json: {message: "Proceed to pickup location"}
         else
           render json: {message: "Another driver is on the way"}

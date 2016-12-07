@@ -6,14 +6,16 @@ RSpec.configure do |c|
 end
 
 RSpec.describe Api::UsersController, type: :controller do
-  it "has access to the helper method (authenticate_user) defined in the module" do
-    user = FactoryGirl.create(:user)
-    expect(authenticate_user(user.token)).to eq(user)
-  end
+  describe "Helper methods" do
+    it "has access to the helper method (authenticate_user) defined in the module" do
+      user = FactoryGirl.create(:user)
+      expect(authenticate_user(user.token)).to eq(user)
+    end
 
-  it "has access to the helper method (returned_user) defined in the module" do
-    user = FactoryGirl.create(:user)
-    expect(returned_user(user)).to eq(returned_user(user))
+    it "has access to the helper method (returned_user) defined in the module" do
+      user = FactoryGirl.create(:user)
+      expect(returned_user(user)).to eq(returned_user(user))
+    end
   end
 
   describe "GET #index" do
