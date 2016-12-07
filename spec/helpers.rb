@@ -31,4 +31,10 @@ module Helpers
     driver = FactoryGirl.create(:driver, user_id: user.id)
     post :accept, {user: {token: user.token}, booking:{id: "invalid"}}
   end
+
+  def start_ride
+    user = FactoryGirl.create(:user)
+    driver = FactoryGirl.create(:driver, user_id: user.id)
+    post :start_ride, {user: {token: user.token}}
+  end
 end

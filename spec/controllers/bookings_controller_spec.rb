@@ -47,4 +47,12 @@ RSpec.describe Api::BookingsController, type: :controller do
     end
   end
 
+  describe "POST #start_ride" do
+    it "returns http success" do
+      start_ride
+      expect(response).to have_http_status(:success)
+      expect(response.status).to eq(200)
+    end
+  end
+
 end

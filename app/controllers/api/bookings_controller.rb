@@ -37,13 +37,23 @@ module Api
     end
 
     def start_ride
-      driver = User.find_by(token: params[:user][:token]).driver
+      begin
+        user = User.find_by(token: params[:user][:token])
+        driver = Driver.find_by(user_id: user.id)
+      rescue ActiveRecord::RecordNotFound
+        render json: {error: "Unauthorized"}, status: 404
+      end
       driver.status = Driver::TRANSIT
       driver.save
     end
 
     def end_ride
-      driver = User.find_by(token: params[:user][:token]).driver
+      begin
+        user = User.find_by(token: params[:user][:token])
+        driver = Driver.find_by(user_id: user.id)
+      rescue ActiveRecord::RecordNotFound
+        render json: {error: "Unauthorized"}, status: 404
+      end
       driver.status = Driver::ACTIVE
       driver.save
     end
