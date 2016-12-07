@@ -1,17 +1,19 @@
 module Api
   class BookingsController < ApiController
     def create
-      booking = Booking.create(location_id: params[:location][:id], status: Booking::AVAILABLE)
+      user = User.find_by(token: params[:user][:token])
+      booking = Booking.create(location_id: params[:location][:id], status: Booking::AVAILABLE, user_id: user.id)
       drivers = Driver.where("status = ? ", Driver::ACTIVE)
       driver_list = []
       drivers.each do |driver|
         driver_list.push("driver_#{driver.id}")
       end
-      Pusher.trigger(driver_list, 'ride', {
+      Pusher.trigger(driver_list[0..9], 'ride', {
         start_location: booking.location.pickup_address,
         destination: booking.location.dropoff_address,
         booking_id: booking.id
       })
+      render json: {message: "Searching for available taxis......"}
     end
 
     def accept
@@ -23,6 +25,12 @@ module Api
           booking.driver_id = driver.id
           driver.status = Driver::BUSY
           booking.save && driver.save
+          Pusher.trigger("user_#{booking.user_id}", 'pickup', {
+            message: "Your taxi is enroute",
+            car_model: driver.car_model,
+            car_color: driver.car_color,
+            plate_number: driver.plate_number
+          })
           render json: {message: "Proceed to pickup location"}
         else
           render json: {message: "Another driver is on the way"}
