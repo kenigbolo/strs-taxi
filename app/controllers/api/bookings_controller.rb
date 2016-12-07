@@ -9,7 +9,8 @@ class BookingsController < ApiController
     end
     Pusher.trigger(driver_list, 'ride', {
       start_location: booking.location.pickup_address,
-      destination: booking.location.dropoff_address
+      destination: booking.location.dropoff_address,
+      booking_id: booking.id
     })
   end
 
