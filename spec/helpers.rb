@@ -17,4 +17,11 @@ module Helpers
     location = FactoryGirl.create(:location)
     post :create, {user: { token: user.token}, location: {id: location.id}}
   end
+
+  def accept_response
+    booking = FactoryGirl.create(:booking)
+    user = FactoryGirl.create(:user)
+    driver = FactoryGirl.create(:driver, user_id: user.id)
+    post :accept, {user: {token: user.token}, booking:{id: booking.id}}
+  end
 end
