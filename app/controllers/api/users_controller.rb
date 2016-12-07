@@ -49,6 +49,11 @@ module Api
     end
 
     def logout
+      driver = User.find_by(token: params[:user][:token]).driver
+      if driver
+        driver.status = Driver::INACTIVE
+        driver.save
+      end
       session[:current_user_id] = nil
     end
 
