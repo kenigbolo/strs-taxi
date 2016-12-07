@@ -54,12 +54,26 @@ RSpec.describe Api::BookingsController, type: :controller do
       expect(response.status).to eq(204)
     end
 
-    # it "updates the drivers status" do
-    #   user = FactoryGirl.create(:user)
-    #   driver = FactoryGirl.create(:driver, user_id: user.id)
-    #   post :start_ride, {user: {token: user.token}}
-    #   expect(post :start_ride, {user: {token: user.token}}).to change(driver.status).from(Driver::ACTIVE).to(Driver::TRANSIT)
-    # end
+    it "updates the drivers status to transit" do
+      count_before_start_ride = transit_count
+      start_ride
+      count_after_start_ride = transit_count
+      expect(count_after_start_ride).to eq(count_before_start_ride + 1)
+    end
   end
 
+  describe "POST #end_ride" do
+    it "returns http success" do
+      end_ride
+      expect(response).to have_http_status(:success)
+      expect(response.status).to eq(204)
+    end
+
+    it "updates the drivers status to active at the end of the ride" do
+      count_before_end_ride = active_count
+      end_ride
+      count_after_end_ride = active_count
+      expect(count_after_end_ride).to eq(count_before_end_ride + 1)
+    end
+  end
 end

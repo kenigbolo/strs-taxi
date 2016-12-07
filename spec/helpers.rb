@@ -37,4 +37,18 @@ module Helpers
     driver = FactoryGirl.create(:driver, user_id: user.id)
     post :start_ride, {user: {token: user.token}}
   end
+
+  def end_ride
+    user = FactoryGirl.create(:user)
+    driver = FactoryGirl.create(:driver, user_id: user.id, status: Driver::TRANSIT)
+    post :end_ride, {user: {token: user.token}}
+  end
+
+  def transit_count
+    Driver.where("status = ?", Driver::TRANSIT).count
+  end
+
+  def active_count
+    Driver.where("status = ?", Driver::ACTIVE).count
+  end
 end
