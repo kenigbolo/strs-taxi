@@ -77,7 +77,7 @@ RSpec.describe Api::UsersController, type: :controller do
     end
   end
 
-  describe "GET #logout" do
+  describe "POST #logout" do
     it "returns http success" do
       expect(response).to have_http_status(:success)
       expect(response.status).to eq(200)
@@ -115,7 +115,7 @@ RSpec.describe Api::UsersController, type: :controller do
     before do
       user = FactoryGirl.create(:user, user_type: "Driver")
       driver = FactoryGirl.create(:driver, user_id: user.id)
-      post :status, {user: {"token": user.token}, driver: {"status": "Active"}}
+      post :status, {user: {"token": user.token}, driver: {"status": 1}}
     end
 
     it "returns http success" do
@@ -131,14 +131,14 @@ RSpec.describe Api::UsersController, type: :controller do
     it "updates the drivers status to the given status update" do
       user = FactoryGirl.create(:user, user_type: "Driver")
       driver = FactoryGirl.create(:driver, user_id: user.id)
-      expect(user.driver.status).to eq "Active"
+      expect(user.driver.status).to eq Driver::ACTIVE
     end
 
     it "Sets the response for any status which doesn't conform status constants to Inactive" do
       user = FactoryGirl.create(:user, user_type: "Driver")
       driver = FactoryGirl.create(:driver, user_id: user.id)
       post :status, {user: {"token": user.token}, driver: {"status": "ZZthieyrhs"}}
-      expect(user.driver.status).to eq "Inactive"
+      expect(user.driver.status).to eq Driver::INACTIVE
     end
 
     it "Throws an error message for someone who isn't a driver" do

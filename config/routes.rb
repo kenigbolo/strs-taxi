@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   end
 
   post 'api/users/logout', to: 'api/users#logout'
-  post 'api/users/status', to: 'api/users#status'
   post 'api/users/login', to: 'api/users#login'
   post 'api/users/status', to: 'api/users#status'
   post 'api/bookings/accept', to: 'api/bookings#accept'

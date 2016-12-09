@@ -31,9 +31,10 @@ module Api
 
     def status
       user = authenticate_user(params[:user][:token])
-      if user.user_type == "Driver"
-        user.driver.status = set_status(params[:driver][:status])
-        if user.driver.save
+      if user.user_type == User::DRIVER
+        driver = user.driver
+        driver.status = set_status(params[:driver][:status])
+        if driver.save
           render json: { status: 'Your status has been successfully updated' }, status: 200
         else
           render json: { error: 'Something went wrong while we tried to update your status, please try again' }, status: 404
@@ -59,38 +60,18 @@ module Api
       render json: { message: "successfully logged out!"}, status: 200
     end
 
-    def status
-      token = params[:user][:token]
-      status = params[:driver][:status]
-      user = User.find_by(token: params[:user][:token])
-      driver = Driver.find_by(user_id: user.id)
-      if driver
-        if status == 1
-          driver.status = Driver::ACTIVE
-        elsif status == 2
-          driver.status = Driver::BUSY
-        elsif status == 3
-          driver.status = Driver::TRANSIT
-        elsif status == 4
-          driver.status = Driver::INACTIVE
-        else
-          render json: {error: "Invalid status ID"}, status: 404
-        end
-      end
-      driver.save!
-      render json: {message: "Status successfully updated"}, status: 404
-    end
-
     private
     def user_reg_params
       params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confirmation, :user_type, :car_model, :car_color, :plate_number)
     end
 
     def set_status(status)
-      if status.capitalize == Driver::ACTIVE
+      if status == 1
         Driver::ACTIVE
-      elsif status.capitalize == Driver::BUSY
+      elsif status == 2
         Driver::BUSY
+      elsif status == 3
+        Driver::TRANSIT
       else
         Driver::INACTIVE
       end
