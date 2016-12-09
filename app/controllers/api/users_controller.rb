@@ -1,6 +1,12 @@
 module Api
   class UsersController < ApiController
 
+    def index
+      if session[:current_user_id] == nil
+        render json: {message: "Welcome to STRS-TAXI, please login to continue"}, status: 200
+      end
+    end
+
     def create
       user = User.new
       user.first_name = params[:user][:first_name]
@@ -18,8 +24,83 @@ module Api
       end
     end
 
+    def show
+      @user = authenticate_user(params[:id])
+      render_user(@user)
+    end
+
+    def status
+      user = authenticate_user(params[:user][:token])
+      if user.user_type == "Driver"
+        user.driver.status = set_status(params[:driver][:status])
+        if user.driver.save
+          render json: { status: 'Your status has been successfully updated' }, status: 200
+        else
+          render json: { error: 'Something went wrong while we tried to update your status, please try again' }, status: 404
+        end
+      else
+        render json: { error: 'You are not authorized to perform this action' }, status: 404
+      end
+    end
+
     def login
       @user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
+      render_user(@user)
+    end
+
+    def logout
+      driver = User.find_by(token: params[:user][:token]).driver
+      if driver
+        driver.status = Driver::INACTIVE
+        driver.save
+      end
+      session[:current_user_id] = nil
+    end
+
+    private
+    def user_reg_params
+      params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confirmation, :user_type, :car_model, :car_color, :plate_number)
+    end
+
+    def set_status(status)
+      if status.capitalize == Driver::ACTIVE
+        Driver::ACTIVE
+      elsif status.capitalize == Driver::BUSY
+        Driver::BUSY
+      else
+        Driver::INACTIVE
+      end
+    end
+
+    def authenticate_user(token)
+      User.includes(:driver).find_by(token: token)
+    end
+
+    def save_user(user)
+      if user.save
+        render json: { status: 'Your registration was successfully, sign in to use our service' }, status: 200
+      else
+        render json: { error: 'We could not create an account for you.Please try again' }, status: 404
+      end
+    end
+
+    def save_driver(user)
+      user = user.save!
+      if User.exists?(user.id)
+        driver = Driver.new(status: User::INACTIVE, user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], color: params[:user][:color])
+        if driver.save!
+          render json: { status: 'Your registration was successfully, sign in to use our service' }, status: 200
+        else
+          user.destroy
+          render json: { error: 'Something went wrong while trying to save your car details' }, status: 404
+        end
+      else
+        render json: { error: 'We could not create an account for you.Please try again' }, status: 404
+      end
+    end
+
+    def render_user(user)
+      @user = user
       if @user
         if @user.user_type == "Driver"
           session[:current_user_id] = @user.id
@@ -32,39 +113,5 @@ module Api
         render json: { error: 'Inavalid email and/or passowrd' }, status: 404
       end
     end
-
-    def logout
-      session[:current_user_id] = nil
-    end
-
-    private
-
-    def user_reg_params
-      params.require(:user).permit(:first_name, :last_name, :email, :dob, :password, :password_confirmation, :user_type, :car_model, :car_color, :plate_number)
-    end
-
-    def save_user(user)
-      if user.save!
-        render :plain => "Your registration was successfully, sign in to use our service"
-      else
-        render :plain => "We could not create an account for you.Please try again"
-      end
-    end
-
-    def save_driver(user)
-      user = user.save!
-      if User.exists?(user.id)
-        driver = Driver.new(user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], color: params[:user][:color])
-        if driver.save!
-          render :plain => "Your registration was successfully, sign in to use our service"
-        else
-          user.destroy
-          render :plain => "Something went wrong while trying to save your car details"
-        end
-      else
-        render :text => "We could not create an account for you.Please try again"
-      end
-    end
-
   end
 end
