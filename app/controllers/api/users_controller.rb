@@ -56,6 +56,29 @@ module Api
         driver.save
       end
       session[:current_user_id] = nil
+      render json: { message: "successfully logged out!"}, status: 200
+    end
+
+    def status
+      token = params[:user][:token]
+      status = params[:driver][:status]
+      user = User.find_by(token: params[:user][:token])
+      driver = Driver.find_by(user_id: user.id)
+      if driver
+        if status == 1
+          driver.status = Driver::ACTIVE
+        elsif status == 2
+          driver.status = Driver::BUSY
+        elsif status == 3
+          driver.status = Driver::TRANSIT
+        elsif status == 4
+          driver.status = Driver::INACTIVE
+        else
+          render json: {error: "Invalid status ID"}, status: 404
+        end
+      end
+      driver.save!
+      render json: {message: "Status successfully updated"}, status: 404
     end
 
     private
