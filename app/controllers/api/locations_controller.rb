@@ -65,6 +65,18 @@ module Api
       @location.destroy
     end
 
+    def location_set
+      token = params[:user][:token]
+      location = params[:driver][:location]
+      user = User.find_by(token: token)
+      driver = Driver.find_by(user_id: user.id)
+      if driver
+        render json: {message: "Your location #{location} has been successfully updated"}
+      else
+        render json: { error: "Unauthorized"}, status: 404
+      end
+    end
+
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_location

@@ -2,6 +2,8 @@ class User < ApplicationRecord
 	has_secure_password
 	has_secure_token
 
+	DRIVER = "Driver"
+	
 	has_one :driver
 	has_many :bookings
 	validates :email, presence: true, uniqueness: true

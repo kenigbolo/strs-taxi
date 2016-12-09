@@ -31,9 +31,10 @@ module Api
 
     def status
       user = authenticate_user(params[:user][:token])
-      if user.user_type == "Driver"
-        user.driver.status = set_status(params[:driver][:status])
-        if user.driver.save
+      if user.user_type == User::DRIVER
+        driver = user.driver
+        driver.status = set_status(params[:driver][:status])
+        if driver.save
           render json: { status: 'Your status has been successfully updated' }, status: 200
         else
           render json: { error: 'Something went wrong while we tried to update your status, please try again' }, status: 404
@@ -49,12 +50,14 @@ module Api
     end
 
     def logout
-      driver = User.find_by(token: params[:user][:token]).driver
+      user = User.find_by(token: params[:user][:token])
+      driver = Driver.find_by(user_id: user.id)
       if driver
         driver.status = Driver::INACTIVE
         driver.save
       end
       session[:current_user_id] = nil
+      render json: { message: "successfully logged out!"}, status: 200
     end
 
     private
@@ -63,10 +66,12 @@ module Api
     end
 
     def set_status(status)
-      if status.capitalize == Driver::ACTIVE
+      if status == 1
         Driver::ACTIVE
-      elsif status.capitalize == Driver::BUSY
+      elsif status == 2
         Driver::BUSY
+      elsif status == 3
+        Driver::TRANSIT
       else
         Driver::INACTIVE
       end
