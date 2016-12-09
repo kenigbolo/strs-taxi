@@ -49,7 +49,8 @@ module Api
     end
 
     def logout
-      driver = User.find_by(token: params[:user][:token]).driver
+      user = User.find_by(token: params[:user][:token])
+      driver = Driver.find_by(user_id: user.id)
       if driver
         driver.status = Driver::INACTIVE
         driver.save
