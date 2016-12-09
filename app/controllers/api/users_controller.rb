@@ -85,9 +85,9 @@ module Api
     end
 
     def save_driver(user)
-      user = user.save!
+      user.save!
       if User.exists?(user.id)
-        driver = Driver.new(status: User::INACTIVE, user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], color: params[:user][:color])
+        driver = Driver.new(status: Driver::INACTIVE, user_id: user.id, car_model: params[:user][:car_model], plate_number: params[:user][:plate_number], car_color: params[:user][:car_color])
         if driver.save!
           render json: { status: 'Your registration was successfully, sign in to use our service' }, status: 200
         else
