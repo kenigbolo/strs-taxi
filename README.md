@@ -47,20 +47,31 @@ or
 
 ```ruby
 Prefix Verb   URI Pattern                  Controller#Action
-  root GET    /                            main#index
-api_users GET    /api/users(.:format)         api/users#index
-       POST   /api/users(.:format)         api/users#create
-api_user GET    /api/users/:id(.:format)     api/users#show
-       PATCH  /api/users/:id(.:format)     api/users#update
-       PUT    /api/users/:id(.:format)     api/users#update
-       DELETE /api/users/:id(.:format)     api/users#destroy
-api_locations GET    /api/locations(.:format)     api/locations#index
-       POST   /api/locations(.:format)     api/locations#create
-api_location GET    /api/locations/:id(.:format) api/locations#show
-       PATCH  /api/locations/:id(.:format) api/locations#update
-       PUT    /api/locations/:id(.:format) api/locations#update
-       DELETE /api/locations/:id(.:format) api/locations#destroy
-api_users_login POST   /api/users/login(.:format)   api/users#login
+root                    GET    /                                  main#index
+api_users               GET    /api/users(.:format)               api/users#index
+                        POST   /api/users(.:format)               api/users#create
+api_user                GET    /api/users/:id(.:format)           api/users#show
+                        PATCH  /api/users/:id(.:format)           api/users#update
+                        PUT    /api/users/:id(.:format)           api/users#update
+                        DELETE /api/users/:id(.:format)           api/users#destroy
+api_locations           GET    /api/locations(.:format)           api/locations#index
+                        POST   /api/locations(.:format)           api/locations#create
+api_location            GET    /api/locations/:id(.:format)       api/locations#show
+                        PATCH  /api/locations/:id(.:format)       api/locations#update
+                        PUT    /api/locations/:id(.:format)       api/locations#update
+                        DELETE /api/locations/:id(.:format)       api/locations#destroy
+api_users_login         POST   /api/users/login(.:format)         api/users#login
+                        POST   /api/bookings(.:format)            api/bookings#create
+api_booking             GET    /api/bookings/:id(.:format)        api/bookings#show
+                        PATCH  /api/bookings/:id(.:format)        api/bookings#update
+                        PUT    /api/bookings/:id(.:format)        api/bookings#update
+                        DELETE /api/bookings/:id(.:format)        api/bookings#destroy
+api_users_logout        GET    /api/users/logout(.:format)        api/users#logout
+api_users_status        POST   /api/users/status(.:format)        api/users#status
+api_bookings_accept     POST   /api/bookings/accept(.:format)     api/bookings#accept
+api_bookings_start_ride POST   /api/bookings/start_ride(.:format) api/bookings#start_ride
+api_bookings_end_ride   POST   /api/bookings/end_ride(.:format)   api/bookings#end_ride
+
 ```
 
 ##Database

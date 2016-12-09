@@ -27,6 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'active_model_serializers'
 gem 'httparty'
 gem 'rack-attack'
+gem 'figaro'
 
 group :production do
   gem 'pg'
