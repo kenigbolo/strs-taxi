@@ -5,9 +5,12 @@ module Api::BookingsHelper
 
   def push_booking_to_drivers(driver_list, booking)
     Pusher.trigger(driver_list[0..9], 'ride', {
-      start_location: booking.location.pickup_address,
-      destination: booking.location.dropoff_address,
-      booking_id: booking.id
+        action: 'new_booking',
+        booking: {
+            start_location: booking.location.pickup_address,
+            destination: booking.location.dropoff_address,
+            id: booking.id
+        }
     })
   end
 
