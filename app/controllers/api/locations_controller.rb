@@ -75,7 +75,7 @@ module Api
         if driver.save
           render json: {message: "Your location #{location} has been successfully updated"}
         else
-          render json: { error: "Locatin not updated"}, status: 404
+          render json: { error: "Location not updated"}, status: 404
         end
       else
         render json: { error: "Unauthorized"}, status: 404
