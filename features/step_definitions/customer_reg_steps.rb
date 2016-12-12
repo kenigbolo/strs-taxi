@@ -1,7 +1,7 @@
 #create customers account
-Given(/^that I am in the home page$/) do
-    visit 'api/users/login'
 
+Given(/^I am in the customer home page$/) do
+    visit path_to 'http://localhost:8100/#/bookings/new'
 end
 
 When(/^I provide my user name, password and phone number$/) do

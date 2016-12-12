@@ -16,6 +16,9 @@ module NavigationHelpers
     when /^the home\s?page$/
       '/'
 
+    when /^the customer home\s?page$/
+      'http://localhost:8100/#/profile/create'
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #
