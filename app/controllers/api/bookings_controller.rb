@@ -6,6 +6,7 @@ module Api
       booking = helpers.create_booking(user, location)
       drivers = Driver.where("status = ? ", Driver::ACTIVE)
       driver_list = []
+
       if booking && drivers.present?
         helpers.create_drivers_list(drivers, driver_list, location)
         helpers.push_booking_to_drivers(driver_list, booking)

@@ -27,11 +27,13 @@ module Api::BookingsHelper
   def is_nearest_driver(driver, location)
     # Nearest on a 3km radius
     cl = location
-    dl = driver.current_location
+    # dl = driver.current_location
+    dl = location # mocked as the driver current location not yet implemented
+    
     loc1 = [cl.pickup_lat, cl.pickup_long]
     loc2 = [dl.pickup_lat, dl.pickup_long]
-    distance = ComputeDistanceBetween.new(loc1, loc2)
-    distance <= 3000.0 ? true : false
+    compute = ComputeDistanceBetween.new(loc1, loc2)
+    if (compute.get_distance <= 3000.0) then true else false end
   end
 
   def push_status_to_user(booking, driver)
