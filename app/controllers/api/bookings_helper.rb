@@ -18,13 +18,13 @@ module Api::BookingsHelper
 
   def create_drivers_list(drivers, driver_list, location)
     drivers.each do |driver|
-      if isnearest_driver(driver, location) then
+      if is_nearest_driver(driver, location) then
         driver_list.push("driver_#{driver.id}")
       end
     end
   end
 
-  def isnearest_driver(driver, location)
+  def is_nearest_driver(driver, location)
     # Nearest on a 3km radius
     cl = location
     dl = driver.current_location
