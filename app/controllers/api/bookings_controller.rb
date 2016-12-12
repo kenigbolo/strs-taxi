@@ -34,7 +34,7 @@ module Api
       else
         render json: {error: "Unauthorized"}, status: 404
       end
-    end
+    end    
 
     def start_ride
       begin
