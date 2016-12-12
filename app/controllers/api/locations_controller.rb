@@ -71,7 +71,12 @@ module Api
       user = User.find_by(token: token)
       driver = Driver.find_by(user_id: user.id)
       if driver
-        render json: {message: "Your location #{location} has been successfully updated"}
+        driver.current_location = location
+        if driver.save
+          render json: {message: "Your location #{location} has been successfully updated"}
+        else
+          render json: { error: "Locatin not updated"}, status: 404
+        end
       else
         render json: { error: "Unauthorized"}, status: 404
       end
