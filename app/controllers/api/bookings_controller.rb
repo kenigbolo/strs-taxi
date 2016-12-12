@@ -7,7 +7,7 @@ module Api
       drivers = Driver.where("status = ? ", Driver::ACTIVE)
       driver_list = []
       if booking && drivers.present?
-        helpers.create_drivers_list(drivers, driver_list)
+        helpers.create_drivers_list(drivers, driver_list, location)
         helpers.push_booking_to_drivers(driver_list, booking)
         render json: {message: "Searching for available taxis......"}
       else
@@ -34,7 +34,7 @@ module Api
       else
         render json: {error: "Unauthorized"}, status: 404
       end
-    end    
+    end
 
     def start_ride
       begin
