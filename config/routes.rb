@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :users
     resources :locations
     resources :bookings
+    resources :drivers
   end
 
   post 'api/users/logout', to: 'api/users#logout'

@@ -14,6 +14,30 @@ module Api
     end
 
     def update
+      first_name = params[:user][:first_name]
+      last_name = params[:user][:last_name]
+      dob = params[:user][:dob]
+      car_color = params[:driver][:car_color]
+      car_model = params[:driver][:car_model]
+      plate_number = params[:driver][:plate_number]
+      user = User.find_by(token: params[:user][:token])
+      if user
+        driver = Driver.find_by(user_id: user.id)
+        if driver
+          user.first_name = first_name
+          user.last_name = last_name
+          user.dob = dob
+          driver.car_color = car_color
+          driver.car_model = car_model
+          driver.plate_number = plate_number
+          user.save
+          driver.save
+        else
+          render json: {error: 'We could not find a registered driver account'}, status: 404
+        end
+      else
+        render jsn: {error: 'No registered user'}, status: 404
+      end
     end
 
     def status

@@ -24,6 +24,22 @@ module Api
       end
     end
 
+    def update
+      first_name = params[:user][:first_name]
+      last_name = params[:user][:last_name]
+      dob = params[:user][:dob]
+      user = User.find_by(token: params[:user][:token])
+      if user
+        user.first_name = first_name
+        user.last_name = last_name
+        user.dob = dob
+        user.save
+        render json: {message: 'successfully updated your profile'}, status: 200
+      else
+        render json; {error: 'could not update your profile, please try again'}, status: 404
+      end
+    end
+
     def show
       @user = authenticate_user(params[:id])
       render_user(@user)
