@@ -85,7 +85,7 @@ module Api
       if user.save
         render json: { status: 'Your registration was successfully, sign in to use our service' }, status: 200
       else
-        render json: { error: 'We could not create an account for you.Please try again' }, status: 404
+        render json: user.errors, status: 404
       end
     end
 
@@ -97,7 +97,7 @@ module Api
           render json: { status: 'Your registration was successfully, sign in to use our service' }, status: 200
         else
           user.destroy
-          render json: { error: 'Something went wrong while trying to save your car details' }, status: 404
+          render json: driver.errors, status: 404
         end
       else
         render json: { error: 'We could not create an account for you.Please try again' }, status: 404
@@ -105,14 +105,13 @@ module Api
     end
 
     def render_user(user)
-      @user = user
-      if @user
-        if @user.user_type == "Driver"
+      if user
+        if user.user_type == "Driver"
           session[:current_user_id] = @user.id
-          render json: {user: @user, driver_details: @user.driver}
+          render json: {user: user, driver_details: user.driver}
         else
-          session[:current_user_id] = @user.id
-          render json: @user
+          session[:current_user_id] = user.id
+          render json: user
         end
       else
         render json: { error: 'Inavalid email and/or passowrd' }, status: 404
