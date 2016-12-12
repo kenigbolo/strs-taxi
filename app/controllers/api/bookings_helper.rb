@@ -1,4 +1,6 @@
 module Api::BookingsHelper
+  require 'compute_distance_between.rb'
+
   def create_booking(user, location)
     Booking.create(location_id: location.id, status: Booking::AVAILABLE, user_id: user.id)
   end
@@ -14,10 +16,22 @@ module Api::BookingsHelper
     })
   end
 
-  def create_drivers_list(drivers, driver_list)
+  def create_drivers_list(drivers, driver_list, location)
     drivers.each do |driver|
-      driver_list.push("driver_#{driver.id}")
+      if isnearest_driver(driver, location) then
+        driver_list.push("driver_#{driver.id}")
+      end
     end
+  end
+
+  def isnearest_driver(driver, location)
+    # Nearest on a 3km radius
+    cl = location
+    dl = driver.current_location
+    loc1 = [cl.pickup_lat, cl.pickup_long]
+    loc2 = [dl.pickup_lat, dl.pickup_long]
+    distance = ComputeDistanceBetween.new(loc1, loc2)
+    distance <= 3000.0 ? true : false
   end
 
   def push_status_to_user(booking, driver)

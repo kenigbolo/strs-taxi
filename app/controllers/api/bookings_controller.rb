@@ -9,7 +9,7 @@ module Api
       if booking && drivers.present?
         helpers.create_drivers_list(drivers, driver_list, location)
         helpers.push_booking_to_drivers(driver_list, booking)
-        render json: {message: "Searching for available taxis......"}
+        render json: {message: "Searching for available taxis..."}
       else
         render json: {message: "We do not have any available taxis. Try again in a few seconds"}
       end
