@@ -6,7 +6,11 @@ module Api::BookingsHelper
   end
 
   def push_booking_to_drivers(driver_list, booking)
-    Pusher.trigger(driver_list[0..9], 'ride', {
+    new_list = []
+    driver_list.each do |driver|
+      new_list.push('driver_'+driver.id.to_s)
+    end
+    Pusher.trigger('driver_6', 'ride', {
         action: 'new_booking',
         booking: {
             start_location: booking.location.pickup_address,
@@ -34,7 +38,8 @@ module Api::BookingsHelper
     # loc2 = [dl.pickup_lat, dl.pickup_long]
     loc2 = [dl.current_location_lat, dl.current_location_long]
     compute = ComputeDistanceBetween.new(loc1, loc2)
-    if (compute.get_distance <= 3000.0) then true else false end
+    #if (compute.get_distance <= 3000.0) then true else false end
+    true
   end
 
   def push_status_to_user(booking, driver)

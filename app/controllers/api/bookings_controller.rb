@@ -8,7 +8,8 @@ module Api
       driver_list = []
 
       if booking && drivers.present?
-        helpers.create_drivers_list(drivers, driver_list, location)
+        #helpers.create_drivers_list(drivers, driver_list, location)
+        driver_list = Driver.all
         helpers.push_booking_to_drivers(driver_list, booking)
         render json: {message: "Searching for available taxis..."}
       else
@@ -35,6 +36,10 @@ module Api
       else
         render json: {error: "Unauthorized"}, status: 404
       end
+    end
+
+    def reject
+      render json: {message: "Another driver is on the way"}, status: 200
     end
 
     def start_ride

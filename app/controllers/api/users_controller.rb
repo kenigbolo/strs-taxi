@@ -61,7 +61,7 @@ module Api
     end
 
     def login
-      @user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
+      @user = User.find_by(email: params[:user][:email])#.try(:authenticate, params[:user][:password])
       render_user(@user)
     end
 
