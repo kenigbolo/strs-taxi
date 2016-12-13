@@ -11,6 +11,9 @@ module Api::BookingsHelper
         booking: {
             start_location: booking.location.pickup_address,
             destination: booking.location.dropoff_address,
+            customer_first_name: booking.user.first_name
+            customer_last_name: booking.user.last_name
+            customer_phone_number: booking.user.phone_number
             id: booking.id
         }
     })

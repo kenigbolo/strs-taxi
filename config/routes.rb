@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :users
     resources :locations
     resources :bookings
+    resources :drivers
   end
 
   post 'api/users/logout', to: 'api/users#logout'
@@ -14,5 +15,5 @@ Rails.application.routes.draw do
   post 'api/bookings/accept', to: 'api/bookings#accept'
   post 'api/bookings/start_ride', to: 'api/bookings#start_ride'
   post 'api/bookings/end_ride', to: 'api/bookings#end_ride'
-  post 'api/locations/location_set', to: 'api/locations#location_set'
+  post 'api/drivers/location_set', to: 'api/drivers#location_set'
 end
