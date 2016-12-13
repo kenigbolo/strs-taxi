@@ -36,7 +36,7 @@ module Api
         user.save
         render json: {message: 'successfully updated your profile'}, status: 200
       else
-        render json; {error: 'could not update your profile, please try again'}, status: 404
+        render json: {error: 'could not update your profile, please try again'}, status: 404
       end
     end
 

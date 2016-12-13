@@ -1,13 +1,14 @@
 module Api
   class DriversController < ApiController
     def login
-      user = User.find_by(email: params[:user][:email]).try(:authenticate, params[:user][:password])
+      user = User.find_by(email: params[:user][:email])#.try(:authenticate, params[:user][:password])
       if user
         driver = Driver.find_by(user_id: user.id)
         if driver
           render json: {user: user, driver: driver}, status: 200
         else
-          render json: {error; 'Driver does not exist'}, status: 404
+          render json: {error: 'Driver does not exist'}, status: 404
+        end
       else
         render json: { error: 'Invalid Username and/or Password'}, status: 404
       end
