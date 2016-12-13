@@ -7,7 +7,8 @@ module Api
         if driver
           render json: {user: user, driver: driver}, status: 200
         else
-          render json: {error; 'Driver does not exist'}, status: 404
+          render json: {error: 'Driver does not exist'}, status: 404
+        end
       else
         render json: { error: 'Invalid Username and/or Password'}, status: 404
       end
