@@ -130,7 +130,7 @@ module Api
           render json: user
         end
       else
-        render json: { error: 'Inavalid email and/or passowrd' }, status: 404
+        render json: { error: 'Invalid email and/or passowrd' }, status: 404
       end
     end
   end
