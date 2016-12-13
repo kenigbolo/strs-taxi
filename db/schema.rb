@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161212163022) do
+ActiveRecord::Schema.define(version: 20161213030658) do
 
   create_table "bookings", force: :cascade do |t|
     t.integer  "driver_id"
@@ -28,10 +28,12 @@ ActiveRecord::Schema.define(version: 20161212163022) do
     t.string   "car_color"
     t.string   "plate_number"
     t.integer  "user_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
     t.string   "status"
     t.float    "current_location"
+    t.float    "current_location_lat"
+    t.float    "current_location_long"
     t.index ["user_id"], name: "index_drivers_on_user_id"
   end
 
@@ -47,12 +49,6 @@ ActiveRecord::Schema.define(version: 20161212163022) do
     t.string   "time"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-  end
-
-  create_table "taxis", force: :cascade do |t|
-    t.string   "reg_no",     limit: 50, null: false
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
   end
 
   create_table "users", force: :cascade do |t|
