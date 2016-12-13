@@ -5,13 +5,26 @@ module Api
       if user
         driver = Driver.find_by(user_id: user.id)
         if driver
-          render json: {user: user, driver: driver}, status: 200
+          render json: {data: {user: user, driver: driver}}, status: 200
         else
           render json: {error: 'Driver does not exist'}, status: 404
         end
       else
         render json: { error: 'Invalid Username and/or Password'}, status: 404
       end
+    end
+
+    def logout
+      user = User.find_by(token: params[:user][:token])
+      driver = Driver.find_by(user_id: user.id)
+      if driver
+        driver.status = Driver::INACTIVE
+        driver.save
+      else
+        render json: {error: 'Driver does not exist'}, status: 404
+      end
+      session[:current_user_id] = nil
+      render json: { message: "successfully logged out!"}, status: 200
     end
 
     def update
@@ -33,11 +46,12 @@ module Api
           driver.plate_number = plate_number
           user.save
           driver.save
+          render json: { status: 'success'}, status: 200
         else
           render json: {error: 'We could not find a registered driver account'}, status: 404
         end
       else
-        render jsn: {error: 'No registered user'}, status: 404
+        render json: {error: 'No registered user'}, status: 404
       end
     end
 

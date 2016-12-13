@@ -16,4 +16,7 @@ Rails.application.routes.draw do
   post 'api/bookings/start_ride', to: 'api/bookings#start_ride'
   post 'api/bookings/end_ride', to: 'api/bookings#end_ride'
   post 'api/drivers/location_set', to: 'api/drivers#location_set'
+  post 'api/drivers/login', to: 'api/drivers#login'
+  post 'api/drivers/logout', to: 'api/drivers#logout'
+  put 'api/drivers', to: 'api/drivers#update'
 end
