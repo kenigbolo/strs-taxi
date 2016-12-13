@@ -3,7 +3,7 @@ class GoogleGeocoding
   base_uri 'maps.googleapis.com:443'
 
   def initialize(address)
-    api_key = 'AIzaSyClrg3EWZzuhP9IcJFM1C0aNLgbCDDNc6w'
+    api_key = 'AIzaSyBG-Evxz-EMExbgZsXcW32FyMIG1iO-bbE'
     @options = { query: {address: address, key: api_key } }
   end
 
