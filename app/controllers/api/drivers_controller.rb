@@ -56,18 +56,27 @@ module Api
     end
 
     def status
-      user = authenticate_user(params[:user][:token])
-      if user.user_type == User::DRIVER
-        driver = user.driver
-        driver.status = set_status(params[:driver][:status])
-        if driver.save
-          render json: { status: 'Your status has been successfully updated' }, status: 200
+      user = User.find_by(token: params[:user][:token])
+      if user
+        driver = Driver.find_by(user_id: user.id)
+        if driver
+          new_status = set_status(params[:driver][:status])
+          if new_status.nil?
+            render json: { error: 'Unknown status was provided' }, status: 200
+          else
+            if driver.save
+              render json: { status: 'success' }, status: 200
+            else
+              render json: { error: 'Something went wrong while we tried to update your status, please try again' }, status: 200
+            end
+          end
         else
-          render json: { error: 'Something went wrong while we tried to update your status, please try again' }, status: 404
+          render json: {error: 'Details could not be loaded'}, status: 404
         end
       else
         render json: { error: 'You are not authorized to perform this action' }, status: 404
       end
+
     end
 
     def location_set
@@ -89,14 +98,19 @@ module Api
 
     private
     def set_status(status)
-      if status == 1
+      status = status.capitalize
+      if status == Driver::ACTIVE
         Driver::ACTIVE
-      elsif status == 2
+      elsif status == Driver::BUSY
         Driver::BUSY
-      elsif status == 3
+      elsif status == Driver::TRANSIT
         Driver::TRANSIT
-      else
+      elsif status == Driver::INACTIVE
         Driver::INACTIVE
+      elsif status == Driver::INACTIVE
+        Driver::INACTIVE
+      elsif
+        NIL
       end
     end
   end
