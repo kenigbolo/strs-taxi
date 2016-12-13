@@ -11,9 +11,6 @@ module Api::BookingsHelper
         booking: {
             start_location: booking.location.pickup_address,
             destination: booking.location.dropoff_address,
-            customer_first_name: booking.user.first_name,
-            customer_last_name: booking.user.last_name,
-            customer_phone_number: booking.user.phone_number,
             id: booking.id
         }
     })
@@ -30,11 +27,12 @@ module Api::BookingsHelper
   def is_nearest_driver(driver, location)
     # Nearest on a 3km radius
     cl = location
-    # dl = driver.current_location
-    dl = location # mocked as the driver current location not yet implemented
-    
+    dl = driver
+    # dl = location # mocked as the driver current location not yet implemented
+
     loc1 = [cl.pickup_lat, cl.pickup_long]
-    loc2 = [dl.pickup_lat, dl.pickup_long]
+    # loc2 = [dl.pickup_lat, dl.pickup_long]
+    loc2 = [dl.current_location_lat, dl.current_location_long]
     compute = ComputeDistanceBetween.new(loc1, loc2)
     if (compute.get_distance <= 3000.0) then true else false end
   end
