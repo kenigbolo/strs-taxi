@@ -19,5 +19,6 @@ Rails.application.routes.draw do
   post 'api/drivers/login', to: 'api/drivers#login'
   post 'api/drivers/logout', to: 'api/drivers#logout'
   post 'api/drivers/status', to: 'api/drivers#status'
+  post 'api/drivers/set_location', to: 'api/drivers#location_set'
   put 'api/drivers', to: 'api/drivers#update'
 end
