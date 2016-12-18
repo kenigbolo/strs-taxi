@@ -51,7 +51,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
     it "returns a an error message for non existing email/password combination" do
       post :login, user: { email: "anyemail@email.com", password: "user_password"}
-      error_message = { error: 'Inavalid email and/or passowrd' }
+      error_message = { error: 'Invalid email and/or passowrd' }
       expect(response.body).to eq(error_message.to_json)
     end
 
@@ -105,7 +105,7 @@ RSpec.describe Api::UsersController, type: :controller do
 
     it "returns an error message for incomplete parameters" do
       post :create, user: { email: "anyemail@email.com", password: "user_password", user_type: "Blaaaaah"}
-      error_message = {error: "We could not create an account for you.Please try again"}
+      error_message = {first_name: ["can't be blank"], last_name: ["can't be blank"], dob: ["can't be blank"], password_confirmation: ["can't be blank", "is too short (minimum is 6 characters)"]}
       expect(response.body).to eq error_message.to_json
     end
   end
