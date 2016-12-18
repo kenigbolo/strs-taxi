@@ -1,6 +1,7 @@
 module Api
   class DriversController < ApiController
     def login
+	  logger.debug
       user = User.find_by(email: params[:user][:email])#.try(:authenticate, params[:user][:password])
       if user
         driver = Driver.find_by(user_id: user.id)
