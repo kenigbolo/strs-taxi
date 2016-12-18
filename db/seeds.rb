@@ -10,3 +10,4 @@ require 'faker'
 10.times { FactoryGirl.create :driver }
 10.times { FactoryGirl.create :user}
 10.times { FactoryGirl.create :location}
+10.times { FactoryGirl.create :booking}
