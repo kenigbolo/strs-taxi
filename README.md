@@ -36,6 +36,23 @@ or
 
   `bundle exec rspec`
 
+
+## Code Coverage
+Currently at 90% with simplecov. To generate coverage report:
+* Add `gem 'simplecov', require: false` to `test` group in Gemfile and `bundle install`.
+* Add the line
+      `require 'simplecov'
+      SimpleCov.start`
+to the top of `spec_helper.rb`
+* Add the line
+      `if ENV['RAILS_ENV'] == 'test'
+        require 'simplecov'
+        SimpleCov.start 'rails'
+        puts "required simplecov"
+      end`
+to the top of the `bin/rails` file
+* Run `rspec spec` and visit the `coverage/index.html` to view the coverage report.
+
 ##API Main Features
 
 * Authentication (Token Based Authentication)
