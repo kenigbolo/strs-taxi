@@ -10,6 +10,7 @@
 
 * Ruby version 2.2.1 and above
 * Rails 5.0.0
+* CodeShip
 
 Once you have those two, you can then run your command line and navigate into the project's folder and then run:
 
