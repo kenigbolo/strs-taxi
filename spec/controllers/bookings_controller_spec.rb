@@ -22,7 +22,7 @@ RSpec.describe Api::BookingsController, type: :controller do
     it "returns a Returns a valid response for successful taxi request" do
       10.times {FactoryGirl.create(:driver)}
       create_booking
-      message = { message: 'Searching for available taxis......' }
+      message = { message: 'Searching for available taxis...' }
       expect(response.body).to eq(message.to_json)
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe Api::BookingsController, type: :controller do
     it "returns http success" do
       start_ride
       expect(response).to have_http_status(:success)
-      expect(response.status).to eq(204)
+      expect(response.status).to eq(200)
     end
 
     it "updates the drivers status to transit" do
@@ -66,7 +66,7 @@ RSpec.describe Api::BookingsController, type: :controller do
     it "returns http success" do
       end_ride
       expect(response).to have_http_status(:success)
-      expect(response.status).to eq(204)
+      expect(response.status).to eq(200)
     end
 
     it "updates the drivers status to active at the end of the ride" do

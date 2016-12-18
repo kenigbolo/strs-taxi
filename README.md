@@ -10,6 +10,7 @@
 
 * Ruby version 2.2.1 and above
 * Rails 5.0.0
+* CodeShip
 
 Once you have those two, you can then run your command line and navigate into the project's folder and then run:
 
@@ -34,6 +35,23 @@ After all the setting up as mentioned above, you can run the tests. The tests ar
 or
 
   `bundle exec rspec`
+
+
+## Code Coverage
+Currently at 90% with simplecov. To generate coverage report:
+* Add `gem 'simplecov', require: false` to `test` group in Gemfile and `bundle install`.
+* Add the line
+      `require 'simplecov'
+      SimpleCov.start`
+to the top of `spec_helper.rb`
+* Add the line
+      `if ENV['RAILS_ENV'] == 'test'
+        require 'simplecov'
+        SimpleCov.start 'rails'
+        puts "required simplecov"
+      end`
+to the top of the `bin/rails` file
+* Run `rspec spec` and visit the `coverage/index.html` to view the coverage report.
 
 ##API Main Features
 
