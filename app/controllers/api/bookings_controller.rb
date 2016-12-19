@@ -8,8 +8,7 @@ module Api
       driver_list = []
 
       if booking && drivers.present?
-        #helpers.create_drivers_list(drivers, driver_list, location)
-        driver_list = Driver.all
+        helpers.create_drivers_list(drivers, driver_list, location)
         helpers.push_booking_to_drivers(driver_list, booking)
         render json: {message: "Searching for available taxis..."}
       else
@@ -38,10 +37,6 @@ module Api
       end
     end
 
-    def reject
-      render json: {message: "Another driver is on the way"}, status: 200
-    end
-
     def start_ride
       begin
         user = User.find_by(token: params[:user][:token])
@@ -52,6 +47,41 @@ module Api
       driver.status = Driver::TRANSIT
       driver.save
       render json: {status: "Status updated to #{driver.status}"}
+    end
+
+    def reject
+      begin
+        user = User.find_by(token: params[:user][:token])
+        driver = Driver.find_by(user_id: user.id)
+        booking = Booking.find(params[:booking][:id])
+      rescue ActiveRecord::RecordNotFound
+        render json: {error: "Unauthorized"}, status: 404
+      end
+      driver.status = Driver::ACTIVE
+      helpers.push_to_next_driver(driver, booking)
+    end
+
+    def invoice
+      begin
+        booking = Booking.find(params[:booking][:id])
+      rescue ActiveRecord::RecordNotFound
+        render json: {error: "We could not find that booking"}, status: 404
+      end
+      render json: {
+        pickup: booking.location.pickup_address,
+        dropoff: booking.location.dropoff_address,
+        time: booking.location.time,
+        total_cost: booking.location.total_cost
+        }
+    end
+
+    def all_invoice
+      user = User.find_by(token: params[:user][:token])
+      driver = Driver.find_by(user_id: user.id)
+      if driver
+        bookings = Bookings.where("driver_id = ?", driver.id)
+        render json: bookings
+      end
     end
 
     def end_ride
