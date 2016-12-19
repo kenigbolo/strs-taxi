@@ -110,6 +110,8 @@ module Api
         Driver::TRANSIT
       elsif status == Driver::INACTIVE
         Driver::INACTIVE
+      else
+        NIL
       end
     end
   end
