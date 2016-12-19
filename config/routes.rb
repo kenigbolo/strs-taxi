@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   post 'api/users/status', to: 'api/users#status'
   post 'api/bookings/accept', to: 'api/bookings#accept'
   post 'api/bookings/reject', to: 'api/bookings#reject'
+  post 'api/bookings/invoice', to: 'api/bookings#invoice'
+  post 'api/bookings/all_invoice', to: 'api/bookings#all_invoice'
   post 'api/bookings/start_ride', to: 'api/bookings#start_ride'
   post 'api/bookings/end_ride', to: 'api/bookings#end_ride'
   post 'api/drivers/location_set', to: 'api/drivers#location_set'

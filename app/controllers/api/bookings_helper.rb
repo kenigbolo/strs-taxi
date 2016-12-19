@@ -5,12 +5,16 @@ module Api::BookingsHelper
     Booking.create(location_id: location.id, status: Booking::AVAILABLE, user_id: user.id)
   end
 
+  def push_to_next_driver(driver, booking)
+    driver_list = []
+    drivers = Driver.where("status = ? ", Driver::ACTIVE).where("id != ?", driver.id)
+    location = Location.find_by(id: booking.location_id)
+    create_drivers_list(drivers, driver_list, location)
+    push_booking_to_drivers(driver_list, booking)
+  end
+
   def push_booking_to_drivers(driver_list, booking)
-    new_list = []
-    driver_list.each do |driver|
-      new_list.push('driver_'+driver.id.to_s)
-    end
-    Pusher.trigger('driver_6', 'ride', {
+    Pusher.trigger(driver_list[0], 'ride', {
         action: 'new_booking',
         booking: {
             start_location: booking.location.pickup_address,
