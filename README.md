@@ -53,7 +53,7 @@ to the top of `spec_helper.rb`
 to the top of the `bin/rails` file
 * Run `rspec spec` and visit the `coverage/index.html` to view the coverage report.
 
-##API Main Features
+## API Main Features
 
 * Authentication (Token Based Authentication)
 * Registration
@@ -61,7 +61,7 @@ to the top of the `bin/rails` file
 * Payment Management
 * Admin Interface
 
-##API Routes
+## API Routes
 
 ```ruby
 Prefix Verb   URI Pattern                  Controller#Action
@@ -92,7 +92,7 @@ api_bookings_end_ride   POST   /api/bookings/end_ride(.:format)   api/bookings#e
 
 ```
 
-##Database
+## Database
 * Development Environment
     Uses Sqlite
 * Production && Staging environment
