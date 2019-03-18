@@ -49,7 +49,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     arel (7.1.4)
     backports (3.12.0)
-    bcrypt (3.1.11)
+    bcrypt (3.1.12)
     builder (3.2.3)
     byebug (9.0.6)
     capistrano (3.7.0)
