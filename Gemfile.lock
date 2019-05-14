@@ -126,9 +126,8 @@ GEM
     httpclient (2.8.3)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.8.0)
+    jbuilder (2.9.0)
       activesupport (>= 4.2.0)
-      multi_json (>= 1.2)
     json (2.2.0)
     jsonapi-renderer (0.2.0)
     launchy (2.4.3)
@@ -286,7 +285,7 @@ DEPENDENCIES
   faker (~> 1.9)
   figaro
   httparty
-  jbuilder (~> 2.8)
+  jbuilder (~> 2.9)
   launchy
   listen (~> 3.1.5)
   pg
