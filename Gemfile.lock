@@ -125,7 +125,7 @@ GEM
     factory_girl_rails (4.9.0)
       factory_girl (~> 4.9.0)
       railties (>= 3.0.0)
-    faker (2.2.2)
+    faker (2.3.0)
       i18n (~> 1.6.0)
     ffi (1.10.0)
     figaro (1.1.1)
@@ -298,7 +298,7 @@ DEPENDENCIES
   cucumber-rails-training-wheels
   database_cleaner
   factory_girl_rails
-  faker (~> 2.2)
+  faker (~> 2.3)
   figaro
   httparty
   jbuilder (~> 2.9)
