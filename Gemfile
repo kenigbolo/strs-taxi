@@ -56,7 +56,7 @@ group :test do
   gem 'simplecov', :require => false
   gem 'database_cleaner'
   gem 'capybara'
-  gem 'faker', '~> 2.3'
+  gem 'faker', '~> 2.4'
   gem 'launchy'
   gem 'poltergeist'
 end
