@@ -125,7 +125,7 @@ GEM
     factory_girl_rails (4.9.0)
       factory_girl (~> 4.9.0)
       railties (>= 3.0.0)
-    faker (2.8.0)
+    faker (2.8.1)
       i18n (>= 1.6, < 1.8)
     ffi (1.11.3)
     figaro (1.1.1)
