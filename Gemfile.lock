@@ -68,7 +68,7 @@ GEM
     backports (3.15.0)
     bcrypt (3.1.13)
     builder (3.2.4)
-    byebug (11.1.0)
+    byebug (11.1.1)
     capistrano (3.11.0)
       airbrussh (>= 1.0.0)
       i18n
