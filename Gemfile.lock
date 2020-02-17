@@ -90,7 +90,7 @@ GEM
     case_transform (0.2)
       activesupport
     cliver (0.3.2)
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.6)
     crass (1.0.5)
     cucumber (3.1.2)
       builder (>= 2.1.2)
@@ -125,7 +125,7 @@ GEM
     factory_girl_rails (4.9.0)
       factory_girl (~> 4.9.0)
       railties (>= 3.0.0)
-    faker (2.10.1)
+    faker (2.10.2)
       i18n (>= 1.6, < 2)
     ffi (1.11.3)
     figaro (1.1.1)
