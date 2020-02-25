@@ -252,7 +252,7 @@ GEM
     rspec-support (3.9.0)
     sdoc (1.0.0)
       rdoc (>= 5.0)
-    simplecov (0.18.3)
+    simplecov (0.18.4)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
     simplecov-html (0.12.1)
