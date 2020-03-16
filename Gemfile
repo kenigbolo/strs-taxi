@@ -22,7 +22,7 @@ gem 'rack-cors', :require => 'rack/cors'
 gem 'pusher', '~> 1.3'
 
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 1.0.0', group: :doc
+gem 'sdoc', '~> 1.1.0', group: :doc
 gem 'active_model_serializers'
 gem 'httparty'
 gem 'rack-attack'
