@@ -231,7 +231,7 @@ GEM
     rb-inotify (0.10.0)
       ffi (~> 1.0)
     rdoc (6.2.1)
-    redis (4.1.4)
+    redis (4.2.0)
     regexp_parser (1.7.0)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
@@ -310,7 +310,7 @@ DEPENDENCIES
   rails (~> 6.0.3)
   rails-controller-testing
   rails_12factor
-  redis (~> 4.1)
+  redis (~> 4.2)
   rspec-rails
   sdoc (~> 1.1.0)
   simplecov
