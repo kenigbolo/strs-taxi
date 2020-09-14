@@ -89,7 +89,7 @@ GEM
     case_transform (0.2)
       activesupport
     cliver (0.3.2)
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.1.7)
     crass (1.0.6)
     cucumber (4.0.1)
       builder (~> 3.2, >= 3.2.3)
@@ -146,9 +146,9 @@ GEM
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (1.8.3)
+    i18n (1.8.5)
       concurrent-ruby (~> 1.0)
-    jbuilder (2.10.0)
+    jbuilder (2.10.1)
       activesupport (>= 5.0.0)
     jsonapi-renderer (0.2.2)
     launchy (2.5.0)
@@ -171,7 +171,7 @@ GEM
     mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    minitest (5.14.1)
+    minitest (5.14.2)
     multi_json (1.14.1)
     multi_test (0.1.2)
     multi_xml (0.6.0)
@@ -297,7 +297,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    zeitwerk (2.3.0)
+    zeitwerk (2.4.0)
 
 PLATFORMS
   ruby
