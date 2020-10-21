@@ -19,7 +19,7 @@ gem 'capistrano-rails', group: :development
 gem 'rack-cors', :require => 'rack/cors'
 
 # Pusher notification engine
-gem 'pusher', '~> 1.3'
+gem 'pusher', '~> 1.4'
 
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 1.1.0', group: :doc
